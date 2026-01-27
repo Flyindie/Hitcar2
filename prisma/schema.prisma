@@ -1,0 +1,154 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+  previewFeatures = ["strictUndefinedChecks"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Data type structure
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  BANNED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum Gear {
+  Manual
+  Automatic
+}
+
+enum Energy {
+  Fuel
+  Hybrid
+  Electric
+}
+
+enum BookingStatus {
+  Completed
+  Awaiting
+  Canceled
+}
+
+enum PaymentMethod {
+  Card
+  Bank
+  Qr
+}
+
+enum Role {
+  Admin
+  User
+}
+
+//table structure
+
+model user {
+  user_id Int @id @default(autoincrement())
+  email String @unique
+  password String
+  created_at DateTime @default(now())
+  status Status
+  gender Gender?
+  region String
+  img_path String?
+  phone String
+  name String
+  surname String
+  Role Role @default(User)
+  date_of_birth DateTime?
+}
+
+model vehicle {
+  vehicle_id Int @id @default(autoincrement())
+  brand String
+  model String
+  segment String
+  seats Int
+  baggage Int
+  door Int
+  gear Gear
+  energy Energy
+  price_per_day Float
+  image_link String
+  status Status
+
+  booking booking[]
+}
+
+model airport {
+  id Int @id @default(autoincrement())
+  region String
+  name String
+  city String
+  states String?
+  country String
+  business_hour String
+
+  pd pd[]
+}
+
+model booking {
+  booking_id Int @id @default(autoincrement())
+  created_at DateTime @default(now())
+  status BookingStatus
+  user_id Int?
+
+  vehicle_id Int?
+  vehicle vehicle? @relation(fields: [vehicle_id], references: [vehicle_id])
+
+  pd pd?
+  driver driver? 
+  payment payment?  
+}
+
+model driver {
+  driver_id Int @id @default(autoincrement())
+  created_at DateTime @default(now())
+  name String
+  surname String
+  age Int
+  email String
+  phone String
+  flight_number String
+
+  booking_id Int @unique
+  booking booking @relation(fields: [booking_id], references: [booking_id])
+}
+
+model pd {
+  pd_id Int @id @default(autoincrement())
+  pickup_date DateTime
+  dropoff_date DateTime
+  total_day Int
+
+  booking_id Int @unique
+  Booking booking @relation(fields: [booking_id], references: [booking_id])
+  airport_id Int
+  airport airport @relation(fields: [airport_id], references: [id])
+}
+
+model payment {
+  payment_id Int @id @default(autoincrement())
+  created_at DateTime @default(now())
+  payment_method PaymentMethod?
+  total_price Decimal
+
+  booking_id Int @unique
+  Booking booking @relation(fields: [booking_id], references: [booking_id])
+}
