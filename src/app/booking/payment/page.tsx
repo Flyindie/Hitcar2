@@ -16,9 +16,17 @@ export default function page() {
         count:number
     }
 
-    const [choose, setChoose] = useState<string>('')
+    const [choose, setChoose] = useState<string>()
     const [bank, setBank] = useState<bankOJ>({name:'Bank of Ayudaya', count:0})
     const [price, setPrice] = useState<number>(0)
+
+    //ข้อมูลบัตร
+    const [cardNumber, setCardNumber] = useState<string>()
+    const [cardHolderName, setCardHolderName] = useState<string>()
+    const [expirationDate, setExpirationDate] = useState<string>()
+    const [cvv, setCVV] = useState<string>()
+
+    const [showQR, setShowQR] =useState<boolean>(false)
 
     const banksImg = [
         "/symbol/banks/ayudtaya.svg", 
@@ -46,7 +54,7 @@ export default function page() {
             }
         }
         catch(error){
-            alert("This car has been removed.")
+            alert("This booking id does not exist.")
             gotoDetails()
         }
     }
@@ -60,10 +68,17 @@ export default function page() {
     async function paymentSubmit(e:React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
 
-        if(!choose){
+        if(choose === "Card"){
+            if(!cardNumber || !cardHolderName || !expirationDate || !cvv){
+                alert('Please provide all the required information.')
+                return
+            }
+        }
+        else if(!choose){
             alert("Please choose a payment method.")
             return
         }
+
         try{
             await axios.patch('/api/booking/payment',{
                 bookingId:context?.bookingID,
@@ -109,18 +124,22 @@ export default function page() {
                                 {choose === "Card" &&
                                     <div>
                                         <div className='border border-[#D9D9D9] rounded-lg bg-white h-10 mb-3 flex items-center pl-3'>
-                                            <input className='outline-none' type="text" placeholder='Card Number'/>
+                                            <input className='outline-none' type="text" placeholder='Card Number'
+                                                onChange={(e) => setCardNumber(e.target.value)}/>
                                         </div>
                                         <div className='border border-[#D9D9D9] rounded-lg bg-white h-10 mb-3 flex items-center pl-3'>
-                                            <input className='outline-none' type="text" placeholder='Cardholder Name'/>
+                                            <input className='outline-none' type="text" placeholder='Cardholder Name'
+                                                onChange={(e) => setCardHolderName(e.target.value)}/>
                                         </div>
                                         <div className='flex justify-between gap-3'>
                                             <div className='border border-[#D9D9D9] rounded-lg bg-white w-full h-10 flex items-center pl-3'>
-                                                <input className='outline-none' type="text" placeholder='Expiration Date'/>
+                                                <input className='outline-none' type="text" placeholder='Expiration Date'
+                                                    onChange={(e) => setExpirationDate(e.target.value)}/>
                                             </div>
                                             <div className={`border border-[#D9D9D9] rounded-lg bg-white w-full h-10 
                                                 flex items-center justify-between px-3`}>
-                                                <input className='outline-none w-fit' type="text" placeholder='CVV/CVC'/>
+                                                <input className='outline-none w-fit' type="text" placeholder='CVV/CVC'
+                                                    onChange={(e) => setCVV(e.target.value)}/>
                                                 <img className='mr-7' src="/symbol/credit_card.svg"/>
                                             </div>
                                         </div>
@@ -150,35 +169,35 @@ export default function page() {
                                         <Menu.Items className='absolute outline-none bg-white w-50'>
                                             <Menu.Item>
                                                 <button type="button" className='flex items-center cursor-pointer hover:bg-amber-100 w-full py-1'
-                                                    onClick={(e) => setBank({name:'Bank of Ayudaya', count:0})}>
+                                                    onClick={() => setBank({name:'Bank of Ayudaya', count:0})}>
                                                     <img className='mx-3' src={banksImg[0]}/>
                                                     <span>Bank of Ayudaya</span>
                                                 </button>
                                             </Menu.Item>
                                             <Menu.Item>
                                                 <button type="button" className='flex items-center cursor-pointer hover:bg-blue-200 w-full py-1'
-                                                    onClick={(e) => setBank({name:'Bangkok Bank', count:1})}>
+                                                    onClick={() => setBank({name:'Bangkok Bank', count:1})}>
                                                     <img className='mx-3' src={banksImg[1]}/>
                                                     <span>Bangkok Bank</span>
                                                 </button>
                                             </Menu.Item>
                                             <Menu.Item>
                                                 <button type="button" className='flex items-center cursor-pointer hover:bg-green-100 w-full py-1'
-                                                    onClick={(e) => setBank({name:'Kasikorn Bank', count:2})}>
+                                                    onClick={() => setBank({name:'Kasikorn Bank', count:2})}>
                                                     <img className='mx-3' src={banksImg[2]}/>
                                                     <span>Kasikorn Bank</span>
                                                 </button>
                                             </Menu.Item>
                                             <Menu.Item>
                                                 <button type="button" className='flex items-center cursor-pointer hover:bg-blue-100 w-full py-1'
-                                                    onClick={(e) => setBank({name:'Krung Thai Bank', count:3})}>
+                                                    onClick={() => setBank({name:'Krung Thai Bank', count:3})}>
                                                     <img className='mx-3' src={banksImg[3]}/>
                                                     <span>Krung Thai Bank</span>
                                                 </button>
                                             </Menu.Item>
                                             <Menu.Item>
                                                 <button type="button" className='flex items-center cursor-pointer hover:bg-purple-200 w-full py-1'
-                                                    onClick={(e) => setBank({name:'SCB', count:4})}>
+                                                    onClick={() => setBank({name:'SCB', count:4})}>
                                                     <img className='mx-3' src={banksImg[4]}/>
                                                     <span>SCB</span>
                                                 </button>

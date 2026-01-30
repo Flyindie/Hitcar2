@@ -92,6 +92,14 @@ function SearchCar() {
                 router.push('/booking')
             }
             else{
+                context?.setAccount({
+                    id:-1,
+                    name: '',
+                    surname: '',
+                    img: '',
+                    role: '',
+                    isLogin: false
+                })
                 alert("Please sing in to continue.")
             }
         }

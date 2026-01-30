@@ -29,15 +29,6 @@ export async function DELETE(req: Request) {
                 where:{vehicle_id:carID}
             })
 
-            await prisma.booking.updateMany({
-                where:{
-                    vehicle_id: carID,
-                    status:'Awaiting'
-                },
-                data:{
-                    status:'Canceled'
-                }
-            })
         }
         
         return Response.json({ success: true })
