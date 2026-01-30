@@ -28,29 +28,32 @@ export default function page() {
         "/symbol/banks/SCB.svg"
     ]
 
-    //รับจำนวนเงินที่ต้องจ่าย
-    useEffect(() => {
+    async function getPaymentInfo() {
         const bookingID = context?.bookingID
         try{
-            const getPaymentInfo = async () => {
-                const res = await axios.get('/api/booking/payment/info',{
-                    params:{
-                        bookingID:bookingID
-                    }
-                })
-                if(res.data.noVehicle){
-                    alert("This car has been removed.")
-                    gotoDetails()
+            const res = await axios.get('/api/booking/payment/info',{
+                params:{
+                    bookingID:bookingID
                 }
-                else{
-                    setPrice(Number(res.data.paymentPrice))
-                }
+            })
+ 
+            if(res.data.noVehicle){
+                alert("This car has been removed.")
+                gotoDetails()
             }
-            getPaymentInfo()
+            else{
+                setPrice(Number(res.data.paymentPrice))
+            }
         }
         catch(error){
-            console.log(error)
+            alert("This car has been removed.")
+            gotoDetails()
         }
+    }
+
+    //รับจำนวนเงินที่ต้องจ่าย
+    useEffect(() => {
+        getPaymentInfo()
     }, [])
 
     //ชำระเงิน

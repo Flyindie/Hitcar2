@@ -21,8 +21,11 @@ export async function GET(req: Request) {
         let noVehicle:Boolean = false
 
         if(!res?.vehicle_id){
-            await prisma.booking.delete({
-                where:{booking_id:res?.booking_id}
+            await prisma.booking.update({
+                where:{booking_id:res?.booking_id},
+                data:{
+                    status:'Canceled'
+                }
             })
             noVehicle = true
         }
