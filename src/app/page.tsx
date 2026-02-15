@@ -11,6 +11,7 @@ import Navbar from "@/components/ui/navbars/Navbar";
 import TopBrand from "@/components/ui/TopBrand";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Swal from 'sweetalert2'
 
 export default function Home() {
   //โหลดรูป
@@ -27,8 +28,6 @@ export default function Home() {
   const [dropTime, setDropTime] = useState<string>('00:00')
   const [startDate, setStartDate] = useState<Date | null>(new Date())
   const [stopDate, setStopDate] = useState<Date | null>(new Date())
-  const [country, setCountry] = useState<string>('Thailand')
-  const [driverAge, setDriverAge] = useState<string>('20-30')
   const [place, setPlace] = useState<string>('Airport, city, station, district...')
 
   const context = useContext(Mycontext)
@@ -57,7 +56,11 @@ export default function Home() {
         setAirports(airport.data)
       }
       catch(e){
-        alert("Please connect to server")
+        Swal.fire({
+            icon: 'error',
+            title:"Oops...",
+            text:"Please connect to server",
+        })
       }
     }
     setHomePage()
@@ -75,9 +78,19 @@ export default function Home() {
     const diffMs = seconDate - firstDate
     const bookingDays = Math.ceil(diffMs / oneDay)
 
-    if(place === 'Airport, city, station, district...') alert("กรุณาใส่สถานที่")
+    if(place === 'Airport, city, station, district...'){
+      Swal.fire({
+        icon: 'error',
+        title:"Oops...",
+        text:"Please specify location.",
+      })
+    }
     else if(bookingDays < 0){
-      alert("วันที่ไม่สัมพันธ์กัน")
+      Swal.fire({
+        icon: 'error',
+        title:"Oops...",
+        text:"Unrelated dates",
+      })
     }
     else{
       context?.setSearchForm({
@@ -85,9 +98,7 @@ export default function Home() {
         picTime:picTime,
         dropTime:dropTime,
         startDate:startDate,
-        stopDate:stopDate,
-        country:country,
-        age:driverAge
+        stopDate:stopDate
       })
       router.push('/ChooseCar')
     }

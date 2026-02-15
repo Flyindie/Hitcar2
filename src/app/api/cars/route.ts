@@ -6,7 +6,8 @@ export async function GET(){
 
     //หารถ5คันแรก
     const vehicles = await prisma.vehicle.findMany({
-        take: 5
+        take: 5,
+        where:{status:'INACTIVE'}
     })
     return( Response.json(vehicles))
 }

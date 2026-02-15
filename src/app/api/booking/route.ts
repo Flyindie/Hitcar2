@@ -83,6 +83,14 @@ export async function POST(req: Request) {
         }
       }
     })
+
+    //อัปเดทสถานะรถ
+    await prisma.vehicle.update({
+      where:{vehicle_id: vehicle_id},
+      data:{
+        status:'ACTIVE'
+      }
+    })
     
     return (
       Response.json({ message: "complete", bookingID:bookingRes.booking_id}, {status:201})

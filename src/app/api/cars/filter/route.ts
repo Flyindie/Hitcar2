@@ -6,7 +6,7 @@ export async function GET(req: Request) {
 
     const { searchParams } = new URL(req.url)
 
-    const where: Prisma.vehicleWhereInput = {};
+    const where: Prisma.vehicleWhereInput = {status:'INACTIVE'};
 
     //เงื่อนไข segment
     const segmentParam = searchParams.get("segment");

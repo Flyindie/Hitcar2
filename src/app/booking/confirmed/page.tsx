@@ -7,6 +7,7 @@ import { FaCaretRight } from "react-icons/fa";
 import { Mycontext } from '@/components/MyProvider';
 import Link from 'next/link';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 enum BookingStatus {
   Completed = 'Completed',
@@ -118,7 +119,11 @@ export default function page() {
             setBookingInfo(res.data)
         }
         catch(error){
-            alert('Cannot connect to server.')
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Cannot connect to server.",
+            })
         }
     }
 

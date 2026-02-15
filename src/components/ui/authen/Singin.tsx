@@ -3,6 +3,7 @@ import React, {useContext, useState } from 'react'
 import { IoMdClose } from "react-icons/io";
 import { Mycontext } from "@/components/MyProvider";
 import { useRouter } from "next/navigation";
+import Swal from 'sweetalert2'
 
 type singin = {
     setSingin:React.Dispatch<React.SetStateAction<boolean>>
@@ -27,7 +28,11 @@ export default function Singin({setSingin, setCreateAccount}:singin) {
         e.preventDefault()
 
         if(!email || !password){
-            alert('Please enter email and password')
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Please enter email and password",
+            })
         }
 
         try{
@@ -44,11 +49,19 @@ export default function Singin({setSingin, setCreateAccount}:singin) {
                 }
             }
             else{
-                alert("The password or email address is incorrect.")
+                Swal.fire({
+                    icon: 'error',
+                    title:"Oops...",
+                    text:"The password or email address is incorrect.",
+                })
             }
         }
         catch(error){
-            console.log(error)
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"The server has a problem.",
+            })
         }
     }
 

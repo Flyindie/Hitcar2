@@ -12,6 +12,7 @@ import { Mycontext } from "@/components/MyProvider";
 import { IoCalendar } from "react-icons/io5";
 import { Menu } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2'
 
 enum Role {
   Admin,
@@ -81,7 +82,11 @@ type User = {
 
         }
         catch(error){
-            console.log(error)
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Please connect to server",
+            })
         }
     }
 
@@ -133,7 +138,11 @@ type User = {
             getAccountInfo()
         }
         catch(error){
-            alert('Email is already in use.')
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Email is already in use.",
+            })
         }
     }
 
@@ -149,7 +158,11 @@ type User = {
             getAccountInfo()
         }
         catch(error){
-            alert('Email is already in use.')
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Email is already in use.",
+            })
         }
     }
 
@@ -165,7 +178,11 @@ type User = {
             getAccountInfo()
         }
         catch(error){
-            alert('Email is already in use.')
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Email is already in use.",
+            })
         }
     }
 
@@ -184,7 +201,11 @@ type User = {
             getAccountInfo()
         }
         catch(error){
-            console.log('Cannot connect to server.')
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Cannot connect to server.",
+            })
         }
     }
 
@@ -201,7 +222,11 @@ type User = {
             router.push('/')
         }
         catch(error){
-            alert('Cannot connect to server.')
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Cannot connect to server.",
+            })
         }
     }
 

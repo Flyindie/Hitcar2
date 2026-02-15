@@ -10,8 +10,6 @@ export type formS = {
   dropTime:String
   startDate:Date | null
   stopDate:Date | null
-  country:String
-  age:String
 }
 
 type Car = {
@@ -53,9 +51,7 @@ export default function MyProvider({children}: Readonly<{children: React.ReactNo
         picTime: "",
         dropTime: "",
         startDate: new Date(),
-        stopDate: new Date(),
-        country: "",
-        age: ""
+        stopDate: new Date()
     })
     const [vehicle, setVehicle] = useState<Car | null>({
         vehicle_id: -1,

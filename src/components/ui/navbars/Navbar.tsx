@@ -35,18 +35,20 @@ function Navbar() {
   },[isSingin, isCreateAccount])
 
   useEffect(() =>{
-    const userSetup = async () => {
-      try{
-        if(!context?.account?.isLogin){
-          const userInfo = await axios.get("/api/account/cookie")
-          context?.setAccount(userInfo.data)
-        }
-      }
-      catch(error){
-      }
-    }
     userSetup()
   },[])
+
+  async function userSetup() {
+    try{
+      if(!context?.account?.isLogin){
+        const userInfo = await axios.get("/api/account/cookie")
+        context?.setAccount(userInfo.data)
+      }
+    }
+    catch(error){
+      return
+    }
+  }
 
   async function singout(){
     try{

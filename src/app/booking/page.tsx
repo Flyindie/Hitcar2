@@ -11,6 +11,7 @@ import StateNavbar from "@/components/ui/navbars/StateNavbar";
 import { Mycontext } from '@/components/MyProvider';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 function page() {
   //ดึงข้อมูลจาก context ทั้ง form ที่กรอกในหน้าแรก รถที่เลือก และข้อมูลผู้ใช้
@@ -94,7 +95,11 @@ function page() {
       router.push('/booking/payment')
     }
     catch(e){
-      alert("Booking unavailable. Please try again.")
+      Swal.fire({
+        icon: 'error',
+        title:"Oops...",
+        text:"Booking unavailable. Please try again.",
+      })
     }
   }
 

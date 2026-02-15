@@ -10,6 +10,7 @@ import { GiCarDoor } from "react-icons/gi";
 import { GiGearStick } from "react-icons/gi";
 import { MdLocalGasStation } from "react-icons/md";
 import AddCar from '@/components/ui/cars/AddCar';
+import Swal from 'sweetalert2';
 
 type Vehicle = {
   vehicle_id:number
@@ -40,7 +41,11 @@ export default function page() {
       setCars(res.data)
     }
     catch(error){
-      alert('Cannot connect to server.')
+      Swal.fire({
+        icon: 'error',
+        title:"Oops...",
+        text:"Cannot connect to server.",
+      })
     }
   }
 
@@ -69,7 +74,11 @@ export default function page() {
       getCars()
     }
     catch(error){
-      alert('Cannot connect to server.')
+      Swal.fire({
+        icon: 'error',
+        title:"Oops...",
+        text:"Cannot connect to server.",
+      })
     }
   }
 

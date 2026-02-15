@@ -2,7 +2,6 @@
 import React, { useContext } from 'react'
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
-import { PiWarningCircleFill } from "react-icons/pi";
 import Navbar from "@/components/ui/navbars/Navbar";
 import SearchCar from '@/components/ui/SearchCar';
 import Link from 'next/link';

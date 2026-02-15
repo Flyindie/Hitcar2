@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { PiWarningCircleFill } from "react-icons/pi";
 import { TbCurrencyBaht } from "react-icons/tb";
 import { Mycontext } from '../MyProvider';
+import Swal from 'sweetalert2'
 
 function SearchCar() {
     //โหลดรูป
@@ -100,11 +101,19 @@ function SearchCar() {
                     role: '',
                     isLogin: false
                 })
-                alert("Please sing in to continue.")
+                Swal.fire({
+                    icon: 'error',
+                    title:"Oops...",
+                    text:"Please sing in to continue",
+                })
             }
         }
         catch(error){
-            alert("Please sing in to continue.")
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Please sing in to continue",
+            })
         }
     }
 

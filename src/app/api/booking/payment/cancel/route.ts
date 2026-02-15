@@ -6,12 +6,22 @@ export async function PATCH(req: Request) {
         const {bookingId} = await req.json()
 
         //ยกเลิกการจอง
-        await prisma.booking.update({
+        const res = await prisma.booking.update({
             where:{booking_id: bookingId},
             data:{
                 status:'Canceled'
             }
         })
+
+        //ถ้ารถยังไม่โดนลบจะเปลี่ยนสถานะการจอง
+        if(res.vehicle_id){
+            await prisma.vehicle.update({
+                where:{vehicle_id: res.vehicle_id},
+                data:{
+                    status:'INACTIVE'
+                }
+            })
+        }
 
         return(
             Response.json({status:201})

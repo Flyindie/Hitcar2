@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import BookingFilter from '@/components/ui/BookingFilter';
 import BookingCard from '@/components/ui/BookingCard';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 enum BookingStatus {
   Completed = 'Completed',
@@ -80,6 +81,15 @@ export default function page() {
     setBookings(res.data)
   }
 
+  async function searchBookingByAirport(airport: string) {
+    const res = await axios.get('/api/booking/search', {
+        params:{
+          airport: airport
+        }
+      })
+    setBookings(res.data)
+  }
+
   function setPaymentStatusMessage(status:BookingStatus){
     if(status === BookingStatus.Awaiting) 
       return('Awaiting Payment')
@@ -92,7 +102,11 @@ export default function page() {
       searchBooking()
     }
     catch(error){
-      console.log(error)
+      Swal.fire({
+        icon: 'error',
+        title:"Oops...",
+        text:"Cannot connect to server.",
+      })
     }
   },[bookingFilter])
 
@@ -101,7 +115,7 @@ export default function page() {
       <img className='absolute z-0 left-30 top-80' src="/img/Car_bg5.svg"/>
       <MemberSidebar/>
       <div className='relative z-1'>
-        <BookingFilter bookingFilter={bookingFilter} setBookingFilter={setBookingFilter} filterArray={filterArray}/>
+        <BookingFilter bookingFilter={bookingFilter} setBookingFilter={setBookingFilter} filterArray={filterArray} searchBookingByAirport={searchBookingByAirport}/>
         {Array.isArray(bookings) ? bookings.map((booking) => (
           <BookingCard key={booking.booking_id}
             bookingID ={booking.booking_id}

@@ -3,6 +3,7 @@ import AdminSidebar from '@/components/ui/detailsSidebar/AdminSidebar'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import Swal from 'sweetalert2';
 
 enum Status {
   ACTIVE = 'ACTIVE',
@@ -41,7 +42,11 @@ export default function page() {
       getMember()
     }
     catch(error){
-      alert('Cannot connect to server.')
+      Swal.fire({
+        icon: 'error',
+        title:"Oops...",
+        text:"Cannot connect to server.",
+      })
     }
   },[])
 

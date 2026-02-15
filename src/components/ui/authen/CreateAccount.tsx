@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { IoMdClose } from "react-icons/io";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { Menu } from '@headlessui/react'
+import Swal from 'sweetalert2'
 
 type singin = {
     setSingin:React.Dispatch<React.SetStateAction<boolean>>
@@ -28,16 +29,28 @@ export default function CreateAccount({setSingin, setCreateAccount}:singin) {
     async function handleSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
 
-        if(password.length < 8){
-            alert('Password needs to be at least 8 characters')
+        if(!email || !name || !surname || !gender || !region || !phone){
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Please complete all inputs",
+            })
             return
         }
         else if(password != checkPassword){
-            alert("Password do not match")
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Password do not match",
+            })
             return
         }
-        else if(!email || !name || !surname || !gender || !region || !phone){
-            alert("Please complete all inputs")
+        else if(password.length < 8){
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Password needs to be at least 8 characters",
+            })
             return
         }
 
@@ -55,10 +68,19 @@ export default function CreateAccount({setSingin, setCreateAccount}:singin) {
                     surname,
                     gender,
                 })
+                Swal.fire({
+                    icon: 'success',
+                    title:"Success.",
+                    text:"Registration completed",
+                })
                 backToSingin()
             }
             else{
-                alert("Duplicate email")
+                Swal.fire({
+                    icon: 'error',
+                    title:"Oops...",
+                    text:"Duplicate email",
+                })
             }
         }
         catch(error){

@@ -6,6 +6,7 @@ import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react'
 import { SlArrowDown } from "react-icons/sl";
 import { useRouter } from "next/navigation";
+import Swal from 'sweetalert2'
 
 export default function page() {
     const context = useContext(Mycontext)
@@ -46,7 +47,11 @@ export default function page() {
             })
  
             if(res.data.noVehicle){
-                alert("This car has been removed.")
+                Swal.fire({
+                    icon: 'error',
+                    title:"Oops...",
+                    text:"This car has been removed.",
+                })
                 gotoDetails()
             }
             else{
@@ -54,7 +59,11 @@ export default function page() {
             }
         }
         catch(error){
-            alert("This booking id does not exist.")
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"This booking id does not exist.",
+            })
             gotoDetails()
         }
     }
@@ -70,12 +79,20 @@ export default function page() {
 
         if(choose === "Card"){
             if(!cardNumber || !cardHolderName || !expirationDate || !cvv){
-                alert('Please provide all the required information.')
+                Swal.fire({
+                    icon: 'error',
+                    title:"Oops...",
+                    text:"Please provide all the required information.",
+                })
                 return
             }
         }
         else if(!choose){
-            alert("Please choose a payment method.")
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Please choose a payment method.",
+            })
             return
         }
 
@@ -87,7 +104,11 @@ export default function page() {
             router.push('/booking/confirmed')
         }
         catch(error){
-            alert("Cannot connect to server")
+            Swal.fire({
+                icon: 'error',
+                title:"Oops...",
+                text:"Cannot connect to server",
+            })
         }
     }
 

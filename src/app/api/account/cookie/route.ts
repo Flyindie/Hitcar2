@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import jwt, { JwtPayload } from "jsonwebtoken"
 
 export async function GET() {
-    console.log("POST account is runing!")
+    console.log("GET cookie is runing!")
 
     try{
         //อ่าน cookie

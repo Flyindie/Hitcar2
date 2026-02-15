@@ -1,22 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { HiMagnifyingGlass } from "react-icons/hi2";
 
 type bookingFilters = {
     bookingFilter:string, 
     setBookingFilter:React.Dispatch<React.SetStateAction<string>>, 
     filterArray:string[]
+    searchBookingByAirport:(airport: string) => {}
 }
 
-function BookingFilter({bookingFilter, setBookingFilter, filterArray}:bookingFilters) {
+function BookingFilter({bookingFilter, setBookingFilter, filterArray, searchBookingByAirport}:bookingFilters) {
+    const [airportName, setAirportName] = useState<string>('')
+
+    function searchByAirport(e:React.FormEvent<HTMLFormElement>){
+        e.preventDefault()
+
+        searchBookingByAirport(airportName)
+    }
     //หน้า ui ตัวกรองสำหรับกรองรายการการจอง
     return (
         <div className='mb-7'>
             <div className='flex justify-between items-center mb-5'>
                 <h1 className='text-white text-3xl font-bold'>My Bookings</h1>
-                <div className='py-2 border border-solid border-[#F2F5FC] rounded-lg flex items-center text-[#FFFFFFBF]'>
+                <form onSubmit={searchByAirport} className='py-2 border border-solid border-[#F2F5FC] rounded-lg flex items-center text-[#FFFFFFBF]'>
                     <HiMagnifyingGlass className='mx-3'/>
-                    <input className='outline-none' type="text" placeholder='Search Bookings'/>
-                </div>
+                    <input className='outline-none' type="text" placeholder='Search Bookings'
+                        onChange={(e) => {setAirportName(e.target.value)}}
+                    />
+                </form>
             </div>
             <div className='flex items-center py-2 bg-[#F8F3EB] rounded-2xl text-xl font-bold px-5'>
                 <button className={`w-full py-2 cursor-pointer rounded-lg 
